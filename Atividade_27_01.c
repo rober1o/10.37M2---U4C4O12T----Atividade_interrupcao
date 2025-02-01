@@ -1,4 +1,5 @@
 #include "Atividade_27_01.h"
+#include "numeros.h"
 #include "pico/bootrom.h"
 #include "pico/time.h"  // Para usar timestamps
 
