@@ -34,6 +34,11 @@ void iniciar_led() {
     gpio_set_dir(BUTTON_B, GPIO_IN);
     gpio_pull_up(BUTTON_A); // Ativa resistor pull-up interno
     gpio_pull_up(BUTTON_B);
+
+    
+    // Configura interrupção no botão (borda de descida)
+    gpio_set_irq_enabled_with_callback(BUTTON_A, GPIO_IRQ_EDGE_FALL, true, gpio_irq_handler);
+    gpio_set_irq_enabled_with_callback(BUTTON_B, GPIO_IRQ_EDGE_FALL, true, gpio_irq_handler);
 }
 
 // Função de callback para alternar o estado do LED
@@ -68,8 +73,63 @@ int main()
 
 }
 
+// Função de interrupção do botão
+void gpio_irq_handler(uint gpio, uint32_t events) {
+    uint32_t tempo_atual = to_ms_since_boot(get_absolute_time());
+
+    if (gpio == BUTTON_A && (events & GPIO_IRQ_EDGE_FALL)) { 
+        if (tempo_atual - ultimo_tempoA > DEBOUNCE_TIME) { 
+            if (numero < 9) numero++;  // Incrementa o número
+            exibir_numero();  // Chama a função para exibir o número
+            ultimo_tempoA = tempo_atual;
+        }
+    } else if (gpio == BUTTON_B && (events & GPIO_IRQ_EDGE_FALL)) {
+        if (tempo_atual - ultimo_tempoB > DEBOUNCE_TIME) {
+            if (numero > 0) numero--;  // Decrementa o número
+            exibir_numero();  // Chama a função para exibir o número
+            ultimo_tempoB = tempo_atual;
+        }
+    }
+}
 
 
+
+void exibir_numero() {
+    switch (numero) {
+        case 0: 
+            desenha_fig(numero_0, brilho_padrao, pio, sm); 
+            break;
+        case 1: 
+            desenha_fig(numero_1, brilho_padrao, pio, sm);
+            break;
+        case 2: 
+            desenha_fig(numero_2, brilho_padrao, pio, sm); 
+            break;
+        case 3: 
+            desenha_fig(numero_3, brilho_padrao, pio, sm); 
+            break;
+        case 4: 
+            desenha_fig(numero_4, brilho_padrao, pio, sm); 
+            break;
+        case 5: 
+            desenha_fig(numero_5, brilho_padrao, pio, sm); 
+            break;
+        case 6: 
+            desenha_fig(numero_6, brilho_padrao, pio, sm); 
+            break;
+        case 7: 
+            desenha_fig(numero_7, brilho_padrao, pio, sm); 
+            break;
+        case 8: 
+            desenha_fig(numero_8, brilho_padrao, pio, sm);; 
+            break;
+        case 9: 
+            desenha_fig(numero_9, brilho_padrao, pio, sm); 
+            break;
+        default: 
+            break;
+    }
+}
 
 
 void desenha_fig(uint32_t *_matriz, uint8_t _intensidade, PIO pio, uint sm){
