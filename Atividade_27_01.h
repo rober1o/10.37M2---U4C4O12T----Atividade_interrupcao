@@ -25,7 +25,6 @@
 //Declaração das variáveis globais usadas no arquivo C
 volatile uint32_t ultimo_tempoA = 0;
 volatile uint32_t ultimo_tempoB = 0;
-repeating_timer_t timer;
 volatile bool ligado = false;
 int numero = 0; 
 PIO pio;
