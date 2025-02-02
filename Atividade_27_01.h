@@ -34,7 +34,7 @@ int sm;
 
 
 // Declaração das funções a serem implementadas no arquivo C
-bool piscar_led_red_callback(repeating_timer_t *t);
+void piscar_led_red();
 bool debounce_ok(uint gpio);
 void gpio_irq_handler(uint gpio, uint32_t events);
 void exibir_numero(void);

@@ -15,12 +15,11 @@ int main()
     Matriz_5x5_program_init(pio, sm, offset, matriz_pin);
 
     iniciar_pinos();
- 
-    add_repeating_timer_ms(100, piscar_led_red_callback, NULL, &timer);
 
 
     while (true) {
-
+        piscar_led_red();
+        sleep_ms(100);
     }
 
 }
@@ -45,11 +44,10 @@ void iniciar_pinos() {
 }
 
 
-// Função de callback para alternar o estado do LED
-bool piscar_led_red_callback(repeating_timer_t *t) {
+// Rotina de para alternar o estado do LED
+void piscar_led_red() {
     ligado = !ligado;  // Alterna o estado do LED
     gpio_put(LED_RED, ligado);  // Atualiza o estado do LED
-    return true;  // Retorna true para continuar o temporizador
 }
 
 // Função de interrupção do botão
