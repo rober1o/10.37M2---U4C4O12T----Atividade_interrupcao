@@ -15,8 +15,7 @@ int main()
     Matriz_5x5_program_init(pio, sm, offset, matriz_pin);
 
     iniciar_pinos();
-
-
+    desenha_fig(numero_0, brilho_padrao, pio, sm);
     while (true) {
         piscar_led_red();
         sleep_ms(100);
